@@ -165,8 +165,8 @@ binary-arch:	build install
 	dh_installdebconf -a
 	dh_movefiles -a
 	dh_compress -a
-	chmod 700 debian/openssl/etc/ssl/private
-	dh_fixperms -a -X etc/ssl/private
+	#chmod 700 debian/openssl/etc/ssl/private
+	#dh_fixperms -a -X etc/ssl/private
 	dh_strip -plibssl1.1 --dbg-package=libssl1.1-dbg
 	dh_strip -a -Nlibssl1.1
 	dh_perl -a -d
