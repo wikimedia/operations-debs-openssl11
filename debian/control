@@ -46,9 +46,10 @@ Description: ssl shared library - udeb
  .
  Do not install it on a normal system.
 
-Package: libssl-dev
+Package: libssl11-dev
 Section: libdevel
 Architecture: any
+Conflicts: libssl-dev
 Multi-Arch: same
 Recommends: libssl-doc
 Depends: libssl1.1 (= ${binary:Version}), ${misc:Depends}
