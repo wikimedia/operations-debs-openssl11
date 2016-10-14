@@ -155,8 +155,8 @@ binary-arch:	build install
 	mv debian/tmp/usr/include/openssl/opensslconf.h debian/tmp/usr/include/$(DEB_HOST_MULTIARCH)/openssl/
 	install debian/copyright debian/libssl1.1/usr/share/doc/libssl1.1/
 	install debian/changelog debian/libssl1.1/usr/share/doc/libssl1.1/changelog.Debian
-	install debian/copyright debian/libssl-dev/usr/share/doc/libssl11-dev/
-	install debian/changelog debian/libssl-dev/usr/share/doc/libssl11-dev/changelog.Debian
+	install debian/copyright debian/libssl11-dev/usr/share/doc/libssl11-dev/
+	install debian/changelog debian/libssl11-dev/usr/share/doc/libssl11-dev/changelog.Debian
 
 	dh_installdocs -a debian/README.optimization
 	dh_installexamples -a
