@@ -1,3 +1,9 @@
+openssl (1.1.0b-1+wmf1) jessie-wikimedia; urgency=medium
+
+  * Stop building openssl binary package to allow co-installability
+
+ -- Moritz Muehlenhoff <mmuhlenhoff@wikimedia.org>  Fri, 14 Oct 2016 13:28:20 +0200
+
 openssl (1.1.0b-1) experimental; urgency=medium
 
   * New upstream release
