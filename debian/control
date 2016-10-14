@@ -61,19 +61,6 @@ Description: Secure Sockets Layer toolkit - development files
  It contains development libraries, header files, and manpages for libssl
  and libcrypto.
 
-Package: libssl-doc
-Section: doc
-Architecture: all
-Replaces: libssl-dev (<< 1.0.0)
-Breaks: libssl-dev (<< 1.0.0)
-Depends: ${shlibs:Depends}, ${perl:Depends}, ${misc:Depends}
-Description: Secure Sockets Layer toolkit - development documentation
- This package is part of the OpenSSL project's implementation of the SSL
- and TLS cryptographic protocols for secure communication over the
- Internet.
- .
- It contains manpages and demo files for libssl and libcrypto.
-
 Package: libssl1.1-dbg
 Section: debug
 Priority: extra

@@ -1,6 +1,7 @@
 openssl (1.1.0b-1+wmf1) jessie-wikimedia; urgency=medium
 
   * Stop building openssl binary package to allow co-installability
+  * Also stop building libssl-doc
   * Rename libssl-dev to libssl11-dev
   * Pass enable-weak-ssl-ciphers to re-enable 3des (temporarily)
   * Add Brandon's chapoly preference patch (chapoly-prefhack.patch)
