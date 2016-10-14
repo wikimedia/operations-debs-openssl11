@@ -1,0 +1,57 @@
+diff --git a/ssl/s3_lib.c b/ssl/s3_lib.c
+index e94ee83..75d5435 100644
+--- a/ssl/s3_lib.c
++++ b/ssl/s3_lib.c
+@@ -3582,6 +3582,7 @@ const SSL_CIPHER *ssl3_choose_cipher(SSL *s, STACK_OF(SSL_CIPHER) *clnt,
+     STACK_OF(SSL_CIPHER) *prio, *allow;
+     int i, ii, ok;
+     unsigned long alg_k, alg_a, mask_k, mask_a;
++    int use_chapoly = 0;
+ 
+     /* Let's see which ciphers we can support */
+ 
+@@ -3614,9 +3615,31 @@ const SSL_CIPHER *ssl3_choose_cipher(SSL *s, STACK_OF(SSL_CIPHER) *clnt,
+     if (s->options & SSL_OP_CIPHER_SERVER_PREFERENCE || tls1_suiteb(s)) {
+         prio = srvr;
+         allow = clnt;
++        /*
++         * Search client ciphersuite subset 'ECDHE-*', turning on server-side
++         * chapoly support iff chapoly is higher than AES-GCM (which may not
++         * even exist!) within.  This is intended to be used with a server
++         * preference that starts out with chapoly before aesgcm:
++         * ECDHE-RSA-CHACHA20-POLY1305 (and/or ECDSA)
++         * ECDHE-RSA-AES128-GCM-SHA256 (and/or ECDSA and/or AES256)
++         * ... lesser compatibility options ...
++         */
++        for (i = 0; i < sk_SSL_CIPHER_num(clnt); i++) {
++            c = sk_SSL_CIPHER_value(clnt, i);
++            if (c->algorithm_mkey == SSL_kEECDH) {
++                if (c->algorithm_enc == SSL_AES128GCM
++                    || c->algorithm_enc == SSL_AES256GCM) {
++                    break;
++                } else if (c->algorithm_enc == SSL_CHACHA20POLY1305) {
++                    use_chapoly = 1;
++                    break;
++                }
++            }
++        }
+     } else {
+         prio = clnt;
+         allow = srvr;
++        use_chapoly = 1;
+     }
+ 
+     tls1_set_cert_validity(s);
+@@ -3634,6 +3657,12 @@ const SSL_CIPHER *ssl3_choose_cipher(SSL *s, STACK_OF(SSL_CIPHER) *clnt,
+              DTLS_VERSION_GT(s->version, c->max_dtls)))
+             continue;
+ 
++        /* Skip chapoly unless turned on above */
++        if (c->algorithm_enc == SSL_CHACHA20POLY1305
++            && c->algorithm_mkey == SSL_kEECDH
++            && !use_chapoly)
++                continue;
++
+         mask_k = s->s3->tmp.mask_k;
+         mask_a = s->s3->tmp.mask_a;
+ #ifndef OPENSSL_NO_SRP
