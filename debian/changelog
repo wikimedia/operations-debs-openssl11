@@ -1,3 +1,11 @@
+openssl (1.1.0b-1+wmf2) jessie-wikimedia; urgency=medium
+
+  * Cherrypick 0f6c9d73cb1e1027c67d993a669719e351c25cfc from the
+    1.1-stable branch to fix read_ahead handling in nginx.
+  * Drop chapoly-preference patch, see T144626 for Brandon's detailed analysis
+
+ -- Moritz Muehlenhoff <mmuhlenhoff@wikimedia.org>  Thu, 03 Nov 2016 09:35:40 +0100
+
 openssl (1.1.0b-1+wmf1) jessie-wikimedia; urgency=medium
 
   * Stop building openssl binary package to allow co-installability

@@ -1,0 +1,70 @@
+From 0f6c9d73cb1e1027c67d993a669719e351c25cfc Mon Sep 17 00:00:00 2001
+From: Matt Caswell <matt@openssl.org>
+Date: Wed, 2 Nov 2016 10:34:12 +0000
+Subject: [PATCH] Fix read_ahead
+
+The function ssl3_read_n() takes a parameter |clearold| which, if set,
+causes any old data in the read buffer to be forgotten, and any unread data
+to be moved to the start of the buffer. This is supposed to happen when we
+first read the record header.
+
+However, the data move was only taking place if there was not already
+sufficient data in the buffer to satisfy the request. If read_ahead is set
+then the record header could be in the buffer already from when we read the
+preceding record. So with read_ahead we can get into a situation where even
+though |clearold| is set, the data does not get moved to the start of the
+read buffer when we read the record header. This means there is insufficient
+room in the read buffer to consume the rest of the record body, resulting in
+an internal error.
+
+This commit moves the |clearold| processing to earlier in ssl3_read_n()
+to ensure that it always takes place.
+
+Reviewed-by: Richard Levitte <levitte@openssl.org>
+(cherry picked from commit a7faa6da317887e14e8e28254a83555983ed6ca7)
+---
+ ssl/record/rec_layer_s3.c | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
+
+diff --git a/ssl/record/rec_layer_s3.c b/ssl/record/rec_layer_s3.c
+index 9c8c23c..4535f89 100644
+--- a/ssl/record/rec_layer_s3.c
++++ b/ssl/record/rec_layer_s3.c
+@@ -241,6 +241,18 @@ int ssl3_read_n(SSL *s, int n, int max, int extend, int clearold)
+         /* ... now we can act as if 'extend' was set */
+     }
+ 
++    len = s->rlayer.packet_length;
++    pkt = rb->buf + align;
++    /*
++     * Move any available bytes to front of buffer: 'len' bytes already
++     * pointed to by 'packet', 'left' extra ones at the end
++     */
++    if (s->rlayer.packet != pkt && clearold == 1) {
++        memmove(pkt, s->rlayer.packet, len + left);
++        s->rlayer.packet = pkt;
++        rb->offset = len + align;
++    }
++
+     /*
+      * For DTLS/UDP reads should not span multiple packets because the read
+      * operation returns the whole packet at once (as long as it fits into
+@@ -263,18 +275,6 @@ int ssl3_read_n(SSL *s, int n, int max, int extend, int clearold)
+ 
+     /* else we need to read more data */
+ 
+-    len = s->rlayer.packet_length;
+-    pkt = rb->buf + align;
+-    /*
+-     * Move any available bytes to front of buffer: 'len' bytes already
+-     * pointed to by 'packet', 'left' extra ones at the end
+-     */
+-    if (s->rlayer.packet != pkt && clearold == 1) { /* len > 0 */
+-        memmove(pkt, s->rlayer.packet, len + left);
+-        s->rlayer.packet = pkt;
+-        rb->offset = len + align;
+-    }
+-
+     if (n > (int)(rb->len - rb->offset)) { /* does not happen */
+         SSLerr(SSL_F_SSL3_READ_N, ERR_R_INTERNAL_ERROR);
+         return -1;
