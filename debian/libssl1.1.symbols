@@ -1,5 +1,6 @@
 libcrypto.so.1.1 libssl1.1 #MINVER#
  *@OPENSSL_1_1_0 1.1.0
  *@OPENSSL_1_1_0a 1.1.0a
+ *@OPENSSL_1_1_0c 1.1.0c
 libssl.so.1.1 libssl1.1 #MINVER#
  *@OPENSSL_1_1_0 1.1.0

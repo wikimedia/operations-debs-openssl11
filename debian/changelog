@@ -9,6 +9,7 @@ openssl (1.1.0c-1+wmf1) jessie-wikimedia; urgency=medium
   * Drop no-rpath.patch, merged in 1.1.0c in
     https://git.openssl.org/?p=openssl.git;a=commit;h=68f3b899105b5709b8d73265549c93a78e0f6e72
   * Refresh debian/d2i-tests.tar
+  * Cope with new libssl1.1 symbols introduced in 1.1.0c
 
  -- Moritz Muehlenhoff <mmuhlenhoff@wikimedia.org>  Thu, 10 Nov 2016 16:42:36 +0100
 
