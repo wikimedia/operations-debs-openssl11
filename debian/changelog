@@ -1,3 +1,16 @@
+openssl (1.1.0c-1+wmf1) jessie-wikimedia; urgency=medium
+
+  * New upstream release
+    - Fix CVE-2016-7054
+    - Fix CVE-2016-7053
+    - Fix CVE-2016-7055
+  * Drop fix-read-ahead.patch, merged in 1.1.0c in
+    https://git.openssl.org/?p=openssl.git;a=commit;h=0f6c9d73cb1e1027c67d993a669719e351c25cfc
+  * Drop no-rpath.patch, merged in 1.1.0c in
+    https://git.openssl.org/?p=openssl.git;a=commit;h=68f3b899105b5709b8d73265549c93a78e0f6e72
+
+ -- Moritz Muehlenhoff <mmuhlenhoff@wikimedia.org>  Thu, 10 Nov 2016 16:42:36 +0100
+
 openssl (1.1.0b-1+wmf2) jessie-wikimedia; urgency=medium
 
   * Cherrypick 0f6c9d73cb1e1027c67d993a669719e351c25cfc from the
