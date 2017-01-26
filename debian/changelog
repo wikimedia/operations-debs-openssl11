@@ -1,4 +1,4 @@
-openssl (1.1.0c-1+wmf2) jessie-wikimedia; urgency=medium
+openssl11 (1.1.0c-1+wmf2) jessie-wikimedia; urgency=medium
 
   * Add local def_buf_8k.patch, increasing default buffer size from 4K to 8K
     (fixes extra RTT for cache terminators - T150561
