@@ -7,6 +7,7 @@ openssl11 (1.1.0d-1+wmf1) jessie-wikimedia; urgency=medium
   * Switch source package name to openssl11, otherwise debdeploy gets
     confused when matching different binary package versions to the
     same source
+  * Handle new libssl1.1 symbols introduced in 1.1.0d
 
  -- Moritz Muehlenhoff <mmuhlenhoff@wikimedia.org>  Thu, 26 Jan 2017 15:37:08 +0100
 
