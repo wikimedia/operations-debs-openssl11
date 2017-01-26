@@ -1,3 +1,15 @@
+openssl11 (1.1.0d-1+wmf1) jessie-wikimedia; urgency=medium
+
+  * New upstream release
+    - Fix CVE-2017-3732
+    - Fix CVE-2017-3731
+    - Fix CVE-2017-3730
+  * Switch source package name to openssl11, otherwise debdeploy gets
+    confused when matching different binary package versions to the
+    same source
+
+ -- Moritz Muehlenhoff <mmuhlenhoff@wikimedia.org>  Thu, 26 Jan 2017 15:37:08 +0100
+
 openssl11 (1.1.0c-1+wmf2) jessie-wikimedia; urgency=medium
 
   * Add local def_buf_8k.patch, increasing default buffer size from 4K to 8K
