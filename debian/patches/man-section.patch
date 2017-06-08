@@ -2,9 +2,11 @@
  Configurations/unix-Makefile.tmpl |    5 +++--
  1 file changed, 3 insertions(+), 2 deletions(-)
 
---- a/Configurations/unix-Makefile.tmpl
-+++ b/Configurations/unix-Makefile.tmpl
-@@ -160,7 +160,8 @@ HTMLDIR=$(DOCDIR)/html
+Index: openssl-1.1.0f/Configurations/unix-Makefile.tmpl
+===================================================================
+--- openssl-1.1.0f.orig/Configurations/unix-Makefile.tmpl
++++ openssl-1.1.0f/Configurations/unix-Makefile.tmpl
+@@ -164,7 +164,8 @@ HTMLDIR=$(DOCDIR)/html
  # MANSUFFIX is for the benefit of anyone who may want to have a suffix
  # appended after the manpage file section number.  "ssl" is popular,
  # resulting in files such as config.5ssl rather than config.5.
@@ -14,12 +16,34 @@
  HTMLSUFFIX=html
  
  
-@@ -635,7 +636,7 @@ UNINSTALL_DOCS=\
- 	@\
- 	OUTSUFFIX='.$${SEC}$(MANSUFFIX)'; \
- 	OUTTOP="$(DESTDIR)$(MANDIR)"; \
--	GENERATE='pod2man --name=$$NAME --section=$$SEC --center=OpenSSL --release=$(VERSION)'; \
-+	GENERATE='pod2man --name=$$NAME --section="$$SEC""$(MANSECTION)" --center=OpenSSL --release=$(VERSION)'; \
- 	$(PROCESS_PODS)
+@@ -554,7 +555,8 @@ install_man_docs:
+ 	@[ -n "$(INSTALLTOP)" ] || (echo INSTALLTOP should not be empty; exit 1)
+ 	@echo "*** Installing manpages"
+ 	$(PERL) $(SRCDIR)/util/process_docs.pl \
+-		--destdir=$(DESTDIR)$(MANDIR) --type=man --suffix=$(MANSUFFIX)
++		--destdir=$(DESTDIR)$(MANDIR) --type=man --suffix=$(MANSUFFIX) \
++		--mansection=$(MANSECTION)
  
  uninstall_man_docs:
+ 	@echo "*** Uninstalling manpages"
+Index: openssl-1.1.0f/util/process_docs.pl
+===================================================================
+--- openssl-1.1.0f.orig/util/process_docs.pl
++++ openssl-1.1.0f/util/process_docs.pl
+@@ -36,6 +36,7 @@ GetOptions(\%options,
+            'type=s',            # The result type, 'man' or 'html'
+            'suffix:s',          # Suffix to add to the extension.
+                                 # Only used with type=man
++           'mansection:s',      # Section to put to manpage in
+            'remove',            # To remove files rather than writing them
+            'dry-run|n',         # Only output file names on STDOUT
+            'debug|D+',
+@@ -98,7 +99,7 @@ foreach my $subdir (keys %{$options{subd
+         my $name = uc $podname;
+         my $suffix = { man  => ".$podinfo{section}".($options{suffix} // ""),
+                        html => ".html" } -> {$options{type}};
+-        my $generate = { man  => "pod2man --name=$name --section=$podinfo{section} --center=OpenSSL --release=$config{version} \"$podpath\"",
++        my $generate = { man  => "pod2man --name=$name --section=$podinfo{section}$options{mansection} --center=OpenSSL --release=$config{version} \"$podpath\"",
+                          html => "pod2html \"--podroot=$options{sourcedir}\" --htmldir=$updir --podpath=apps:crypto:ssl \"--infile=$podpath\" \"--title=$podname\""
+                          } -> {$options{type}};
+         my $output_dir = catdir($options{destdir}, "man$podinfo{section}");
