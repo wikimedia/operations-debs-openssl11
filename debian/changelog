@@ -1,3 +1,9 @@
+openssl11 (1.1.0f-1+wmf1) jessie-wikimedia; urgency=medium
+
+  * New upstream release
+
+ -- Moritz Muehlenhoff <mmuhlenhoff@wikimedia.org>  Thu, 08 Jun 2017 12:08:01 +0200
+
 openssl11 (1.1.0e-1+wmf1) jessie-wikimedia; urgency=medium
 
   * New upstream release
