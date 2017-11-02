@@ -1,3 +1,11 @@
+openssl11 (1.1.0g-1+wmf1) jessie-wikimedia; urgency=medium
+
+  * New upstream release
+    - CVE-2017-3735
+    - CVE-2017-3736
+
+ -- Moritz Muehlenhoff <mmuhlenhoff@wikimedia.org>  Thu, 02 Nov 2017 16:21:06 +0100
+
 openssl11 (1.1.0f-1+wmf1) jessie-wikimedia; urgency=medium
 
   * New upstream release
