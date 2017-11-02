@@ -1,15 +1,12 @@
----
- Makefile.shared |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
---- a/Makefile.shared
-+++ b/Makefile.shared
-@@ -164,7 +164,7 @@ LINK_SO_SHLIB_UNPACKED=	\
+diff -aur openssl11.orig/Makefile.shared openssl11/Makefile.shared
+--- openssl11.orig/Makefile.shared	2017-11-02 16:29:22.560394538 +0100
++++ openssl11/Makefile.shared	2017-11-02 16:33:14.161241951 +0100
+@@ -154,7 +154,7 @@
  DETECT_GNU_LD=($(CC) -Wl,-V /dev/null 2>&1 | grep '^GNU ld' )>/dev/null
  
  DO_GNU_SO_COMMON=\
--	SHAREDFLAGS="$(CFLAGS) $(SHARED_LDFLAGS) -shared -Wl,-Bsymbolic -Wl,-soname=$$SHLIB$$SHLIB_SOVER$$SHLIB_SUFFIX"
-+	SHAREDFLAGS="$(CFLAGS) $(SHARED_LDFLAGS) -shared -Wl,-soname=$$SHLIB$$SHLIB_SOVER$$SHLIB_SUFFIX"
+-	SHAREDFLAGS="$(CFLAGS) $(SHARED_LDFLAGS) -shared -Wl,-Bsymbolic -Wl,-soname=$(SHLIBNAME_FULL)"
++	SHAREDFLAGS="$(CFLAGS) $(SHARED_LDFLAGS) -shared -Wl,-soname=$(SHLIBNAME_FULL)"
  DO_GNU_DSO=\
- 	SHLIB=$(LIBNAME).so; \
- 	SHLIB_SOVER=; \
+ 	$(DO_GNU_SO_COMMON)
+ DO_GNU_SO=\
