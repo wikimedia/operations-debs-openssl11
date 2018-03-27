@@ -1,7 +1,0 @@
-debian-targets.patch
-man-section.patch
-no-symbolic.patch
-pic.patch
-c_rehash-compat.patch
-#padlock_conf.patch
-def_buf_8k.patch
