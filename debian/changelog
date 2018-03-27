@@ -2,6 +2,7 @@ openssl11 (1.1.0h-1+wmf1) jessie-wikimedia; urgency=medium
 
   * New upstream release
     - CVE-2018-0739
+    - Update def_buf_8k.patch to 1.1.0h
   * Remove enable-weak-ssl-ciphers again, we temporarily enabled it to
     allow 3des (and that is now disabled) (Bug: T180792)
 
